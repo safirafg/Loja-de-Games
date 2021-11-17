@@ -17,15 +17,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "tb_categorias")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@NotNull(message = "O tipo é obrigatório!")
+
+	@NotNull(message = "Tipo é obrigatório!")
 	@Size(min = 5)
 	private String tipo;
-	
+
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("categoria")
+	private List<Produto> produto;
+
 	public long getId() {
 		return id;
 	}
@@ -50,8 +54,4 @@ public class Categoria {
 		this.produto = produto;
 	}
 
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("categoria")
-	private List<Produto> produto;
- 
 }
